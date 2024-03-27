@@ -3,9 +3,6 @@ import pygame
 from pygame.locals import *
 from pygame import mixer
 
-mixer.init()
-pygame.init()
-
 screen_width = 1400
 screen_height = 800
 
@@ -15,19 +12,16 @@ pygame.display.set_caption('Breakout')
 #define font
 font = pygame.font.SysFont('Constantia', 30)
 
-# Load background image
-background_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/background (3).png").convert()
-background_img = pygame.transform.scale(background_img, (screen_width, screen_height))  # Scale to match screen size
+# Load the background image
+bg_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/background (3).png").convert()
 
-# Load images
+# Load other images
 ball_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/mario_mushroom.png")
 paddle_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/mario_greentube.png")
-
-# Scale paddle image to match screen width
+# Scale the paddle image to fit the screen width
 new_paddle_width = 1200  # Adjust width as needed
-new_paddle_height = 240  # Adjust height as needed
 scale = 10
-paddle_img = pygame.transform.scale(paddle_img, (new_paddle_width * scale, new_paddle_height * scale))
+paddle_img = pygame.transform.scale(paddle_img, (new_paddle_width * scale, 240 * scale))
 
 #define colours
 bg = (234, 218, 184)
@@ -41,11 +35,11 @@ paddle_outline = (100, 100, 100)
 #text colour
 text_col = (78, 81, 139)
 
-#load music and sounds
+# Load music and sounds
 pygame.mixer.music.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/Super Mario Bros. Theme Song.mp3")
 pygame.mixer.music.play(-1, 0.0)
 
-#define game variables
+# Define game variables
 cols = 6
 rows = 6
 clock = pygame.time.Clock()
@@ -53,76 +47,72 @@ fps = 60
 live_ball = False
 game_over = 0
 
-
-#function for outputting text onto the screen
+# Function for outputting text onto the screen
 def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
     screen.blit(img, (x, y))
 
+# Initialize background x-coordinates
+bg_x1 = 0
+bg_x2 = bg_img.get_width()
+bg_x3 = bg_img.get_width() * 2
+
+# Define scrolling speed
+scroll_speed = 0.5  # Adjust as needed for slower scrolling
+
+# Main game loop
+run = True
+while run:
+    screen.fill(bg)
+
+    # Draw three copies of the background image side by side for infinite scrolling
+    screen.blit(bg_img, (bg_x1, 0))
+    screen.blit(bg_img, (bg_x2, 0))
+    screen.blit(bg_img, (bg_x3, 0))
+
+    # Update background x-coordinates for horizontal scrolling
+    bg_x1 -= scroll_speed
+    bg_x2 -= scroll_speed
+    bg_x3 -= scroll_speed
+
+    # If the first background image goes off the screen, reset its position
+    if bg_x1 <= -bg_img.get_width():
+        bg_x1 = bg_img.get_width() * 2
+
+    # If the second background image goes off the screen, reset its position
+    if bg_x2 <= -bg_img.get_width():
+        bg_x2 = bg_img.get_width() * 2
+
+    # If the third background image goes off the screen, reset its position
+    if bg_x3 <= -bg_img.get_width():
+        bg_x3 = bg_img.get_width() * 2
+# bg_img = pygame.image.load("./images/davies-designs-studio-f5_lfi2S-d4-unsplash.jpg")
+# screen.blit(bg_img, (0, 0))
+# brick_img = pygame.image.load("/Users/mattclancy/Desktop/images/—Pngtree—red brick wall_5410880.png")
+
+# replace ball with image
+# x = 1
+# y = 1
+# scale = 1
+ball_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/mario_mushroom.png")
+
+# replace paddle with image
+paddle_img = pygame.image.load("/Users/kevincardenas/Development/code/phase-3/phase-3-project/assets/mario_greentube.png")
+# Scale the image to a larger size
+new_paddle_width = 1200  # Adjust width as needed
+new_paddle_height = 240  # Adjust height as needed
+scale = 10
+paddle_img = pygame.transform.scale(paddle_img, (new_paddle_width * scale, new_paddle_height * scale))
+
+
+# rect = ball_img.get_rect()
+# rect.center = (x, y)
+
+
+
+
 
 #brick wall class
-class Wall:
-    def __init__(self):
-        self.width = screen_width // cols
-        self.height = 50
-
-    def create_wall(self):
-        self.blocks = []
-        #define an empty list for an individual block
-        block_individual = []
-        for row in range(rows):
-            #reset the block row list
-            block_row = []
-            #iterate through each column in that row
-            for col in range(cols):
-                #generate x and y positions for each block and create a rectangle from that
-                block_x = col * self.width
-                block_y = row * self.height
-                rect = pygame.Rect(block_x, block_y, self.width, self.height)
-                #assign block strength based on row
-                if row < 2:
-                    strength = 3
-                elif row < 4:
-                    strength = 2
-                elif row < 6:
-                    strength = 1
-                #create a list at this point to store the rect and colour data
-                block_individual = [rect, strength]
-                #append that individual block to the block row
-                block_row.append(block_individual)
-            #append the row to the full list of blocks
-            self.blocks.append(block_row)
-
-    def create_chaos(self):
-        self.blocks = []
-        block_individual = []
-        for row in range(rows):
-            block_row = []
-            for col in range(cols):
-                block_x = random.randint(0, col * self.width)
-                block_y = random.randint(0, row * self.height)
-                rect = pygame.Rect(block_x, block_y, self.width, self.height)
-                if row < 2:
-                    strength = 3
-                elif row < 4:
-                    strength = 2
-                elif row < 6:
-                    strength = 1
-                block_individual = [rect, strength]
-                block_row.append(block_individual)
-            self.blocks.append(block_row)
-
-    def draw_wall(self):
-        for row in self.blocks:
-            for block in row:
-                #assign a colour based on block strength
-                if block[1] == 3:
-                    block_col = block_blue
-                elif block[1] == 2:
-                    block_col = block_green
-                elif block[1] == 1:
-                    block_col = block_red
-
 class wall():
     def __init__(self):
         self.width = screen_width // cols

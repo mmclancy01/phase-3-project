@@ -23,7 +23,7 @@ bg = (234, 218, 184)
 text_col = (255, 255, 255)
 
 #load music and sounds
-pygame.mixer.music.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/Super Mario Bros. Theme Song.mp3")
+pygame.mixer.music.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/Super Mario Bros. Theme Song.mp3")
 pygame.mixer.music.play(-1, 0.0)
 
 # Game variables
@@ -35,16 +35,16 @@ live_ball = False
 game_over = 0
 
 # Load images
-ball_img = pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/mario_mushroom.png").convert_alpha()
+ball_img = pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/mario_mushroom.png").convert_alpha()
 ball_img = pygame.transform.scale(ball_img, (30, 30))  # Adjust size as needed
-bg_img = pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/background_3.png").convert()
-paddle_img = pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/mario_greentube.png").convert_alpha()
+bg_img = pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/background_3.png").convert()
+paddle_img = pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/mario_greentube.png").convert_alpha()
 paddle_img = pygame.transform.scale(paddle_img, (150, 30))  # Adjust size as needed
 
 brick_images = {
-    1: pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/brick_1.png").convert_alpha(),
-    2: pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/brick_2.png").convert_alpha(),
-    3: pygame.image.load("/Users/mattclancy/development/code/se-prep/phase-3-project/assets/brick_3.png").convert_alpha()
+    1: pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/brick_1.png").convert_alpha(),
+    2: pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/brick_2.png").convert_alpha(),
+    3: pygame.image.load("/Users/sydneyfriedman/Development/code/phase-3/project/phase-3-project/assets/brick_3.png").convert_alpha()
 }
 bg_x1 = 0
 bg_x2 = bg_img.get_width()
